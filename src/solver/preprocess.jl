@@ -259,9 +259,7 @@ function filter_poly(og_expr, var; assumptions=false)
     subs, expr = _filter_poly(expr, var)
 
     # reassemble expr to avoid variables remembering original values issue and clean
-    args = arguments(expr)
-    oper = operation(expr)
-    new_expr, assum_array = clean_f(term(oper, args...), var, subs)
+    new_expr, assum_array = clean_f(expr, var, subs)
 
     assumptions && return subs, new_expr, assum_array
     return subs, new_expr

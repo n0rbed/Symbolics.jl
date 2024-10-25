@@ -165,10 +165,6 @@ function symbolic_solve(expr, x::T; dropmultiplicity = true, warns = true) where
         for i in eachindex(expr)
             expr[i] = expr[i] isa Equation ? expr[i].lhs - expr[i].rhs : expr[i]
             check_expr_validity(expr[i])
-            if !check_poly_inunivar(expr[i], x)
-                warns && @warn("Solve can not solve this input currently")
-                return nothing
-            end
         end
         expr = Vector{Num}(expr)
     end
@@ -193,11 +189,9 @@ function symbolic_solve(expr, x::T; dropmultiplicity = true, warns = true) where
 
     if !x_univar
         for e in expr
-            for var in x
-                if !check_poly_inunivar(e, var)
-                    warns && @warn("This system can not be currently solved by `symbolic_solve`.")
-                    return nothing
-                end
+            if !check_poly_inmultivars(e, x)
+                warns && @warn("This system can not be currently solved by `symbolic_solve`.")
+                return nothing
             end
         end
 

@@ -104,6 +104,12 @@ function check_poly_inunivar(poly, var)
     return isequal(constant, 0)
 end
 
+function check_poly_inmultivars(poly, vars)
+    subs, filtered = filter_poly(poly, vars[1])
+    coeffs, constant = polynomial_coeffs(filtered, vars)
+    return isequal(constant, 0)
+end
+
 # converts everything to BIG
 function bigify(n)
     n = unwrap(n)
